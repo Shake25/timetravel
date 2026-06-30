@@ -32,7 +32,7 @@
             position: fixed;
             inset: 0;
             background-image:
-                radial-gradient(#ffffff 1px, transparent 1px),
+                radial-gradient(#ffffff 1px, transparent 1px),\
                 radial-gradient(#ffffff 1px, transparent 1px);
             background-size: 80px 80px, 120px 120px;
             background-position: 0 0, 40px 60px;
@@ -52,7 +52,7 @@
             }
         }
 
-        /* 🌟 重构：黄金比例的科技舱卡片 */
+        /* 🌟 黄金比例的科技舱卡片 */
         .card {
             width: 100%;
             max-width: 440px;
@@ -68,10 +68,10 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            /* 统一控制纵向间距，杜绝死空间 */
             text-align: center;
             position: relative;
             z-index: 2;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .badge {
@@ -102,7 +102,7 @@
             padding: 0 10px;
         }
 
-        /* ⏱️ 仪表盘圆环微调 */
+        /* ⏱️ 仪表盘圆环 */
         .time-circle {
             width: 150px;
             height: 150px;
@@ -156,7 +156,7 @@
             margin-top: 4px;
         }
 
-        /* 🎛️ 重构：绝对规整的 4列 矩阵 */
+        /* 🎛️ 4列 矩阵 */
         .options {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -190,7 +190,7 @@
             box-shadow: 0 4px 14px rgba(130, 150, 255, 0.4);
         }
 
-        /* 🎮 底部控制栏优化 */
+        /* 🎮 主互动页面控制栏 */
         .control {
             display: flex;
             gap: 10px;
@@ -232,6 +232,52 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        /* 🛸 【核心修复】前置页专属纵向按钮组样式（确保完美的像素级对称） */
+        .gate-control {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .gate-btn {
+            height: 46px;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gate-btn-primary {
+            color: #0b0b14;
+            background: linear-gradient(135deg, #ffffff 0%, #c7ceff 100%);
+            box-shadow: 0 4px 14px rgba(130, 150, 255, 0.2);
+        }
+
+        .gate-btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(130, 150, 255, 0.3);
+        }
+
+        .gate-btn-secondary {
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gate-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
         button:disabled {
             cursor: not-allowed;
             opacity: 0.4;
@@ -239,27 +285,15 @@
             box-shadow: none !important;
         }
 
-        /* 跃迁状态下锁定除重置外的交互并提供动效 */
         .traveling .time-circle {
             border-color: rgba(140, 160, 255, 0.6);
             animation: pulse 1.2s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 30px rgba(102, 126, 234, 0.2);
-            }
-
-            50% {
-                transform: scale(1.03);
-                box-shadow: 0 0 50px rgba(166, 190, 255, 0.5);
-            }
-
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 30px rgba(102, 126, 234, 0.2);
-            }
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(102, 126, 234, 0.2); }
+            50% { transform: scale(1.03); box-shadow: 0 0 50px rgba(166, 190, 255, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 0 30px rgba(102, 126, 234, 0.2); }
         }
 
         .flash {
@@ -276,33 +310,48 @@
         }
 
         @keyframes flash {
-            0% {
-                opacity: 0;
-            }
-
-            30% {
-                opacity: 0.9;
-            }
-
-            100% {
-                opacity: 0;
-            }
+            0% { opacity: 0; }
+            30% { opacity: 0.9; }
+            100% { opacity: 0; }
         }
 
-        /* 📱 极小屏幕自适应 (如折叠屏或老款小屏手机) */
         @media (max-width: 380px) {
-            .card {
-                padding: 28px 20px;
-                gap: 16px;
-            }
+            .card { padding: 28px 20px; gap: 16px; }
+            .options { grid-template-columns: repeat(3, 1fr); }
+            h1 { font-size: 24px; }
+        }
 
-            .options {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            h1 {
-                font-size: 24px;
-            }
+        .gate-mode {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(140, 160, 255, 0.2);
+        }
+        
+        .safe-mode {
+            background: rgba(20, 35, 25, 0.2);
+            border-color: rgba(74, 117, 89, 0.3);
+            box-shadow: 
+                0 4px 24px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(74, 117, 89, 0.15);
+        }
+        .safe-badge {
+            background: rgba(74, 117, 89, 0.15);
+            border-color: rgba(74, 117, 89, 0.4);
+            color: #a4d4b4;
+        }
+        .safe-title {
+            background: linear-gradient(180deg, #ffffff 0%, #b8e6c4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .safe-box {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.6;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
     </style>
 </head>
@@ -311,11 +360,43 @@
     <div class="stars"></div>
     <div class="flash" id="flash"></div>
 
-    <main class="card" id="card">
+    <main class="card gate-mode" id="gateCard">
+        <div class="badge">Quantum Portal</div>
+        <h1>观测到因果律波动</h1>
+        <p class="desc">
+            你正伫立在多维时空的奇点边界。是否突破维度的物理阻力，强行开启《时间穿越指南》？
+        </p>
+        <div class="gate-control">
+            <button class="gate-btn gate-btn-primary" id="acceptBtn">
+                ⚡ 确认启动（进入裂隙）
+            </button>
+            <button class="gate-btn gate-btn-secondary" id="rejectBtn">
+                留在安全的当下
+            </button>
+        </div>
+    </main>
+
+    <main class="card safe-mode" id="realityCard" style="display: none;">
+        <div class="badge safe-badge">Reality Anchor</div>
+        <h1 class="safe-title">重返人间：平庸现实锚定站</h1>
+        <p class="desc">
+            检测到生物意志拒绝。时空曲率已归零，您已被安全引流至平凡、稳定且确定的当下。
+        </p>
+        <div class="safe-box">
+            🍃 <strong>宇宙观察报告：</strong><br>
+            因为你的理智选择，高维因果链没有断裂，远方的某只蝴蝶也免于扇动翅膀。<br><br>
+            这里没有时空悖论，没有逻辑坍塌。喝杯热茶，继续享受普通人类这一天安稳的摸鱼时光吧。
+        </div>
+        <div class="gate-control">
+            <button class="gate-btn gate-btn-secondary" id="relinkBtn">
+                🔄 重新连接时空裂隙...
+            </button>
+        </div>
+    </main>
+
+    <main class="card" id="card" style="display: none;">
         <div class="badge">Time Travel Guide</div>
-
         <h1>时间穿越指南</h1>
-
         <p class="desc">
             选择一个未来时间点，启动时间跃迁装置。倒计时结束后，你将抵达未来。
         </p>
@@ -353,6 +434,12 @@
     </main>
 
     <script>
+        const gateCard = document.getElementById("gateCard");
+        const realityCard = document.getElementById("realityCard");
+        const acceptBtn = document.getElementById("acceptBtn");
+        const rejectBtn = document.getElementById("rejectBtn");
+        const relinkBtn = document.getElementById("relinkBtn");
+
         const card = document.getElementById("card");
         const flash = document.getElementById("flash");
         const countEl = document.getElementById("count");
@@ -367,9 +454,23 @@
         let timer = null;
         let targetTime = null;
 
+        acceptBtn.addEventListener("click", () => {
+            gateCard.style.display = "none";
+            card.style.display = "flex";
+        });
+
+        rejectBtn.addEventListener("click", () => {
+            gateCard.style.display = "none";
+            realityCard.style.display = "flex";
+        });
+
+        relinkBtn.addEventListener("click", () => {
+            realityCard.style.display = "none";
+            gateCard.style.display = "flex";
+        });
+
         optionBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
-                // 🛸 时空通道硬核锁定：如果正在穿越中，拒绝重新选择时空坐标
                 if (card.classList.contains("traveling")) return;
 
                 optionBtns.forEach((item) => item.classList.remove("active"));
@@ -393,15 +494,12 @@
 
         startBtn.addEventListener("click", () => {
             clearInterval(timer);
-
             targetTime = Date.now() + selectedSeconds * 1000;
 
             card.classList.add("traveling");
             startBtn.disabled = true;
 
-            // 💡 视觉小细节：穿越中把上方的坐标按钮变灰，凸显航线锁定状态
             optionBtns.forEach(btn => { if (!btn.classList.contains('active')) btn.disabled = true; });
-
             statusEl.textContent = `时间通道已开启，正在穿越到 ${selectedLabel}`;
 
             updateCountdown();
@@ -415,7 +513,7 @@
 
             card.classList.remove("traveling");
             startBtn.disabled = false;
-            optionBtns.forEach(btn => btn.disabled = false); // 解除锁定
+            optionBtns.forEach(btn => btn.disabled = false);
             startBtn.textContent = `穿越到 ${selectedLabel}`;
             countEl.textContent = "未启动";
             statusEl.textContent = "当前状态：等待选择穿越时间";
@@ -432,7 +530,7 @@
                 clearInterval(timer);
 
                 card.classList.remove("traveling");
-                optionBtns.forEach(btn => btn.disabled = false); // 解除锁定
+                optionBtns.forEach(btn => btn.disabled = false);
                 flash.classList.add("active");
 
                 countEl.textContent = "已抵达";
@@ -451,21 +549,16 @@
 
             const year = Math.floor(seconds / 31536000);
             seconds %= 31536000;
-
             const month = Math.floor(seconds / 2592000);
             seconds %= 2592000;
-
             const day = Math.floor(seconds / 86400);
             seconds %= 86400;
-
             const hour = Math.floor(seconds / 3600);
             seconds %= 3600;
-
             const minute = Math.floor(seconds / 60);
             const second = seconds % 60;
 
             const result = [];
-
             if (year) result.push(`${year}年`);
             if (month) result.push(`${month}月`);
             if (day) result.push(`${day}天`);
@@ -473,12 +566,11 @@
             if (minute) result.push(`${minute}分`);
             if (second || result.length === 0) result.push(`${second}秒`);
 
-            return result.slice(0, 2).join(""); // 精简显示前两个最大单位，避免字符撑开圆环
+            return result.slice(0, 2).join("");
         }
 
         function formatDate(timestamp) {
             const date = new Date(timestamp);
-
             const y = date.getFullYear();
             const m = String(date.getMonth() + 1).padStart(2, "0");
             const d = String(date.getDate()).padStart(2, "0");
